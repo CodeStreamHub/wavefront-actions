@@ -1,0 +1,68 @@
+---
+project: CMBU on CMBU
+kind: PIPELINE
+name: wavefront-actions-send-metrics-010-sample
+icon: organization,left, is-warm-grey
+enabled: true
+concurrency: 10
+input:
+  METRIC_NAME: ''
+  METRIC_VALUE: ''
+  POINT_TAGS: ''
+  SERVER_URL: ''
+  SOURCE: ''
+  TIMESTAMP: ''
+  TOKEN: ''
+_inputMeta:
+  METRIC_VALUE:
+    description: ''
+    mandatory: true
+  TIMESTAMP:
+    description: ''
+    mandatory: true
+  SOURCE:
+    description: ''
+    mandatory: true
+  SERVER_URL:
+    description: ''
+    mandatory: true
+  TOKEN:
+    description: ''
+    mandatory: false
+  METRIC_NAME:
+    description: ''
+    mandatory: true
+  POINT_TAGS:
+    description: ''
+    mandatory: true
+workspace:
+  type: DOCKER
+  endpoint: cat-custom-integration-docker-host-vm
+  image: cmbucicd/wavefront-actions:0.1.0
+  registry: wavefront-actions-registry
+  path: ''
+  autoCloneForTrigger: false
+  limits:
+    cpu: 1.0
+    memory: 512
+stageOrder:
+- Send Metric
+stages:
+  Send Metric:
+    taskOrder:
+    - Send Custom Metric
+    tasks:
+      Send Custom Metric:
+        type: Custom
+        input:
+          name: Wavefront Actions
+          version: 0.1.0
+          properties:
+            server_url: ${input.SERVER_URL}
+            token: ${var.Symphony-Wavefront-Token}
+            action: sendCustomMetric
+            metric_name: ${input.METRIC_NAME}
+            metric_value: ${input.METRIC_VALUE}
+            timestamp: ${input.TIMESTAMP}
+            source: ${input.SOURCE}
+            point_tags: ${input.POINT_TAGS}
