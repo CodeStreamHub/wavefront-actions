@@ -1,0 +1,85 @@
+---
+runtime: shell
+code: |
+  /app/wavefront-actions "$server_url" "$token"  $action $metric_name $metric_value $timestamp $source $point_tags
+  source /app/output.txt
+    export $(cut -d= -f1 /app/output.txt)
+inputProperties:
+  - name: server_url
+    type: text
+    title: Server URL
+    placeHolder: Server URL
+    defaultValue: 
+    bindable: true
+    labelInfo: true
+    labelMessage: Wavefront Server URL
+  - name: token
+    type: text
+    title: Token
+    placeHolder: API Key to Wavefront
+    defaultValue: ""
+    bindable: true
+    labelInfo: true
+    labelMessage: API Key to Wavefront
+  - name: action
+    type: select
+    title: Action
+    placeHolder: Action
+    defaultValue: 
+    bindable: true
+    labelInfo: true
+    labelMessage:
+    options:
+       - optionKey : sendCustomMetric
+         optionValue : Send Custom Metric
+  - name: metric_name
+    type: text
+    title: Metric Name
+    placeHolder: Metric Name
+    defaultValue: ""
+    bindable: true
+    labelInfo: true
+    labelMessage: Metric Name
+  - name: metric_value
+    type: text
+    title: Metric Value
+    placeHolder: Metric Value
+    defaultValue: ""
+    bindable: true
+    labelInfo: true
+    labelMessage: Metric Value
+  - name: timestamp
+    type: text
+    title: Timestamp
+    placeHolder: Timestamp
+    defaultValue: "NOW"
+    bindable: true
+    labelInfo: true
+    labelMessage: Timestamp
+  - name: source
+    type: text
+    title: Source
+    placeHolder: Source
+    defaultValue: ""
+    bindable: true
+    labelInfo: true
+    labelMessage: Source
+  - name: point_tags
+    type: text
+    title: Point Tags
+    placeHolder: key1=value1,key2=value2
+    defaultValue: ""
+    bindable: true
+    labelInfo: true
+    labelMessage: Point Tags
+         
+outputProperties:
+  - name: output
+    type: label
+    title: Output
+  - name: outputHTML
+    type: label
+    title: Output HTML
+  - name: outputPrettyText
+    type: label
+    title: Output Pretty Text
